@@ -49,7 +49,12 @@ const Contact = () => {
     formState: { errors },
   } = useForm({
     resolver: yupResolver(schema),
+    progressive: true,
   })
+  const onSubmit: Parameters<typeof handleSubmit>[0] = (data, e) => {
+    e?.preventDefault()
+    console.log(data)
+  }
 
   const Label = ({ children }: PropsWithChildren<{}>) => (
     <label className={classNames(["text-sm text-[#01984c]"])}>{children}</label>
@@ -77,6 +82,7 @@ const Contact = () => {
             data-netlify="true"
             data-netlify-recaptcha="true"
             name="contact"
+            onSubmit={handleSubmit(onSubmit)}
             className="justify-self-center w-full max-w-screen-md mb-36"
           >
             <input type="hidden" name="form-name" value="contact" />
