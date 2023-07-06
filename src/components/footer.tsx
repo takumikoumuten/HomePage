@@ -62,7 +62,7 @@ const Footer = ({}: {}): React.ReactElement => {
       </div>
       <div
         className={classNames([
-          "fixed right-4 bottom-4 bg-slate-800 rounded-sm hover:bg-slate-950 transition-all duration-500 opacity-0 aspect-square p-2 grid place-items-center",
+          "fixed right-4 bottom-4 bg-slate-800 rounded-sm hover:bg-slate-950 transition-all duration-500 opacity-0 aspect-square p-2 grid place-items-center hover:cursor-pointer",
           { "opacity-100": isVisible },
         ])}
         onClick={returnTop}
