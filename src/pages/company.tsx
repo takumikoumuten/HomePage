@@ -53,7 +53,6 @@ const companyData: ComponentProps<typeof CompanyInformationTable>["data"] = [
   { title: "代表者", content: consts.代表者, isTel: false },
   { title: "住所", content: consts.住所, isTel: false },
   { title: "TEL", content: consts.TEL, isTel: true },
-  { title: "FAX", content: consts.FAX, isTel: true },
   {
     title: "営業時間",
     content: `${consts.営業開始時間}〜${consts.営業終了時間}`,
