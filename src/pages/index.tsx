@@ -15,7 +15,7 @@ import { consts } from "../consts"
 import Footer from "../components/footer"
 import AccessMap from "../components/accessMap"
 
-export const Head = () => <Seo title="HOME" />
+export const Head = () => <Seo title={`${consts.社名} | ${consts.住所} | リフォーム`} />
 
 const Mission = ({ className }: { className: string }): React.ReactElement => {
   const [ref, isVisible] = useScrollAnimation<HTMLDivElement>()

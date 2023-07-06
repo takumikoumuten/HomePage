@@ -10,7 +10,7 @@ import Footer from "../components/footer"
 import NewsSection from "../components/newsSection"
 import Seo from "../components/seo"
 
-export const Head = () => <Seo title="NEWS" />
+export const Head = () => <Seo pageName="NEWS" />
 
 const News = (): React.ReactElement => {
   const heroData = useStaticQuery(graphql`

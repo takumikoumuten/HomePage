@@ -11,7 +11,7 @@ import classNames from "classnames"
 import Footer from "../components/footer"
 import Seo from "../components/seo"
 
-export const Head = () => <Seo title="BUSINESS" />
+export const Head = () => <Seo pageName="BUSINESS" />
 
 const Example = ({
   images,

@@ -14,7 +14,7 @@ import useFirstSuccess from "../useFirstSuccess"
 import { NewsType } from "../news"
 import Seo from "../components/seo"
 
-export const Head = () => <Seo title="SITEMAP" />
+export const Head = () => <Seo pageName="SITEMAP" />
 
 const Row = ({
   children,

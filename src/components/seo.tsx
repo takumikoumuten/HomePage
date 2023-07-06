@@ -11,13 +11,17 @@ import { consts } from "../consts"
 
 function Seo({
   description,
-  title,
   children,
-}: {
-  title: string
-  description?: string
-  children?: React.ReactElement
-}) {
+  ...props
+}:
+  | {
+      pageName: string
+      description?: string
+      children?: React.ReactElement
+    }
+  | { title: string; description?: string; children?: React.ReactElement }) {
+  const title =
+    "pageName" in props ? `${props.pageName} | ${consts.社名}` : props.title
   const { site } = useStaticQuery(
     graphql`
       query {
@@ -35,9 +39,7 @@ function Seo({
   const metaDescription = description || site.siteMetadata.description
   return (
     <>
-      <title>
-        {title} | {consts.社名}
-      </title>
+      <title>{title}</title>
       <meta name="description" content={metaDescription} />
       <meta property="og:title" content={title} />
       <meta property="og:description" content={metaDescription} />

@@ -11,7 +11,7 @@ import { consts } from "../consts"
 import Footer from "../components/footer"
 import Seo from "../components/seo"
 
-export const Head = () => <Seo title="PRIVACY POLICY" />
+export const Head = () => <Seo pageName="PRIVACY POLICY" />
 
 const PrivacyPolicy = ({}: PageProps<{}, {}>) => {
   const heroData = useStaticQuery(graphql`

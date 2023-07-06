@@ -26,7 +26,7 @@ const Commitment = ({
     query {
       file(relativePath: { eq: "homeIcon.png" }) {
         childImageSharp {
-          gatsbyImageData(layout: FULL_WIDTH)
+          gatsbyImageData(layout: FULL_WIDTH, placeholder: NONE)
         }
       }
     }

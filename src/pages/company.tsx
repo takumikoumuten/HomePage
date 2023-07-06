@@ -12,7 +12,7 @@ import Section from "../components/section"
 import AccessMap from "../components/accessMap"
 import Seo from "../components/seo"
 
-export const Head = () => <Seo title="COMPANY" />
+export const Head = () => <Seo pageName="COMPANY" />
 
 const CompanyInformationTable = ({
   data,

@@ -12,7 +12,7 @@ import classNames from "classnames"
 import Footer from "../components/footer"
 import Seo from "../components/seo"
 
-export const Head = () => <Seo title="CONTACT" />
+export const Head = () => <Seo pageName="CONTACT" />
 
 const schema = yup.object().shape({
   name: yup.string().required("お名前は必須です"),

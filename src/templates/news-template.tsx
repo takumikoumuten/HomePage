@@ -22,7 +22,7 @@ import Footer from "../components/footer"
 import { LinkWrapper } from "../components/linkButton"
 import Seo from "../components/seo"
 
-export const Head = () => <Seo title="Home" />
+export const Head = () => <Seo pageName="Home" />
 
 interface NewsPageContext {
   title: string
