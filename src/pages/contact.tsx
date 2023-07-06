@@ -51,11 +51,6 @@ const Contact = () => {
     resolver: yupResolver(schema),
   })
 
-  const onSubmit: Parameters<typeof handleSubmit>[0] = (data, e) => {
-    e?.preventDefault()
-    console.log(data)
-  }
-
   const Label = ({ children }: PropsWithChildren<{}>) => (
     <label className={classNames(["text-sm text-[#01984c]"])}>{children}</label>
   )
@@ -79,8 +74,8 @@ const Contact = () => {
         </div>
         <div className="bg-neutral-100 mt-12 grid">
           <form
-            onSubmit={handleSubmit(onSubmit)}
             data-netlify="true"
+            data-netlify-recaptcha="true"
             name="contact"
             className="justify-self-center w-full max-w-screen-md mb-36"
           >
