@@ -52,7 +52,6 @@ const Contact = () => {
     progressive: true,
   })
   const onSubmit: Parameters<typeof handleSubmit>[0] = (data, e) => {
-    e?.preventDefault()
     console.log(data)
   }
 

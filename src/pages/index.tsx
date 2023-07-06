@@ -71,7 +71,7 @@ const IndexPage = (): React.ReactElement => {
           <Hero type="large" image={hero}>
             <div className="bg-black bg-opacity-20 grid place-items-center justify-center place-content-center h-full animate-[fade-in_3s_forwards]">
               <Logo type="big" className="mb-8" />
-              <div className="font-bold text-white text-5xl">幸せな家創り</div>
+              <div className="font-bold text-white text-5xl mt-2">幸せな家創り</div>
               <div className="font-bold text-white text-5xl">
                 愛のある暮らし
               </div>

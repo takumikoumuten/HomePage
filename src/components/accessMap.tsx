@@ -141,9 +141,6 @@ const AccessMap = ({
 }): React.ReactElement => {
   const [ref, isVisible] = useScrollAnimation<HTMLDivElement>()
   const apiKey = process.env.GATSBY_GOOGLE_MAP_API_KEY || ""
-  useEffect(() => {
-    console.log({ apiKey, env: process.env })
-  }, [])
 
   return (
     <>
