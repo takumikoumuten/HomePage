@@ -13,6 +13,7 @@ import Footer from "../components/footer"
 import Seo from "../components/seo"
 import useScrollAnimation from "../useScrollAnimation"
 import useFirstSuccess from "../useFirstSuccess"
+import { Route } from "../routes"
 
 export const Head = () => <Seo pageName="CONTACT" />
 
@@ -59,7 +60,7 @@ const Contact = () => {
     const myForm = e?.target
     const formData = new FormData(myForm)
 
-    fetch("/", {
+    fetch(({ tag: "/contact" } as Route).tag, {
       method: "POST",
       headers: { "Content-Type": "application/x-www-form-urlencoded" },
       body: new URLSearchParams(formData as any).toString(),
