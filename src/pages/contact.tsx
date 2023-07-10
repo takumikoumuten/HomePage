@@ -11,6 +11,8 @@ import { consts } from "../consts"
 import classNames from "classnames"
 import Footer from "../components/footer"
 import Seo from "../components/seo"
+import useScrollAnimation from "../useScrollAnimation"
+import useFirstSuccess from "../useFirstSuccess"
 
 export const Head = () => <Seo pageName="CONTACT" />
 
@@ -52,21 +54,18 @@ const Contact = () => {
     progressive: true,
   })
   const onSubmit: Parameters<typeof handleSubmit>[0] = (data, e) => {
-    const formData = new URLSearchParams({
-      ...data,
-      phoneNumber: data.phoneNumber ?? "",
-      address: data.address ?? "",
-      message: data.message ?? "",
-    }).toString()
+    e?.preventDefault()
+
+    const myForm = e?.target
+    const formData = new FormData(myForm)
 
     fetch("/", {
       method: "POST",
       headers: { "Content-Type": "application/x-www-form-urlencoded" },
-      body: formData,
+      body: new URLSearchParams(formData as any).toString(),
     })
       .then(() => console.log("Form successfully submitted"))
       .catch(error => alert(error))
-    console.log(data)
   }
 
   const Label = ({ children }: PropsWithChildren<{}>) => (
@@ -76,6 +75,8 @@ const Contact = () => {
   const Error = ({ children }: PropsWithChildren) => (
     <p className="text-sm text-red-400">{children}</p>
   )
+  const [ref, isVisible] = useScrollAnimation<HTMLFormElement>()
+  const isFirstVisible = useFirstSuccess(isVisible)
 
   return (
     <Layout hero={<Hero image={contactHero} type="small" />}>
@@ -96,7 +97,11 @@ const Contact = () => {
             data-netlify-recaptcha="true"
             name="contact"
             onSubmit={handleSubmit(onSubmit)}
-            className="justify-self-center w-full max-w-screen-md mb-36"
+            className={classNames([
+              "justify-self-center w-full max-w-screen-md mb-36",
+              { "animate-slow-slide-fade-in-left": isFirstVisible },
+            ])}
+            ref={ref}
           >
             <input type="hidden" name="form-name" value="contact" />
 
