@@ -13,7 +13,6 @@ import Footer from "../components/footer"
 import Seo from "../components/seo"
 import useScrollAnimation from "../useScrollAnimation"
 import useFirstSuccess from "../useFirstSuccess"
-import { Route } from "../routes"
 
 export const Head = () => <Seo pageName="CONTACT" />
 
@@ -205,6 +204,7 @@ const Contact = () => {
                 )}
               />
             </div>
+            <div data-netlify-recaptcha="true"></div>
 
             <button
               type="submit"
