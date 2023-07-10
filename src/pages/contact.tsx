@@ -1,4 +1,4 @@
-import React, { PropsWithChildren } from "react"
+import React, { ComponentProps, PropsWithChildren, useRef } from "react"
 import { useForm, Controller } from "react-hook-form"
 import { yupResolver } from "@hookform/resolvers/yup"
 import * as yup from "yup"
@@ -13,8 +13,17 @@ import Footer from "../components/footer"
 import Seo from "../components/seo"
 import useScrollAnimation from "../useScrollAnimation"
 import useFirstSuccess from "../useFirstSuccess"
+import Recaptcha from "react-google-recaptcha"
 
 export const Head = () => <Seo pageName="CONTACT" />
+
+const RECAPTCHA_KEY = "6LfmoP0mAAAAABYvjz6G2Om1VJSpPmRauJsden5C"
+
+function encode(data: any) {
+  return Object.keys(data)
+    .map(key => encodeURIComponent(key) + "=" + encodeURIComponent(data[key]))
+    .join("&")
+}
 
 const schema = yup.object().shape({
   name: yup.string().required("お名前は必須です"),
@@ -66,15 +75,24 @@ const Contact = () => {
     resolver: yupResolver(schema),
     progressive: true,
   })
+  const recaptchaRef = useRef<Recaptcha>(null)
   const onSubmit: Parameters<typeof handleSubmit>[0] = (data, e) => {
     e?.preventDefault()
 
     const myForm = e?.target
     const formData = new FormData(myForm)
 
+    if (recaptchaRef.current === null) return
+    const recaptchaValue = recaptchaRef.current.getValue()
+    if (recaptchaValue === null) return
     fetch("/", {
       method: "POST",
-      body: new URLSearchParams(formData as any).toString(),
+      headers: { "Content-Type": "application/x-www-form-urlencoded" },
+      body: new URLSearchParams({
+        "form-name": "contact",
+        "g-recaptcha-response": recaptchaValue,
+        ...formData,
+      } as any).toString(),
     })
       .then(() => console.log("Form successfully submitted"))
       .catch(error => alert(error))
@@ -204,7 +222,11 @@ const Contact = () => {
                 )}
               />
             </div>
-            <div data-netlify-recaptcha="true"></div>
+            <Recaptcha
+              ref={recaptchaRef}
+              sitekey={RECAPTCHA_KEY}
+              className="mt-8"
+            />
 
             <button
               type="submit"
