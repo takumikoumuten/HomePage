@@ -53,6 +53,7 @@ const schema = yup.object().shape({
     .transform((value, originalValue) => {
       return originalValue === undefined ? "" : value
     }),
+  recaptcha: yup.string().required(),
 })
 
 const Contact = () => {
@@ -221,15 +222,35 @@ const Contact = () => {
                 )}
               />
             </div>
-            <Recaptcha
-              ref={recaptchaRef}
-              sitekey={RECAPTCHA_KEY}
-              className="mt-8"
+            <Controller
+              name="recaptcha"
+              control={control}
+              render={({ field }) => (
+                <Recaptcha
+                  sitekey={RECAPTCHA_KEY}
+                  onChange={value => {
+                    if (value === null) return
+                    field.onChange(value)
+                  }}
+                  className="mt-8"
+                />
+              )}
             />
+            {errors.recaptcha && <Error>reCAPTCHAが必須です</Error>}
 
             <button
               type="submit"
-              className="px-16 py-2 rounded mt-8 text-lg text-white bg-[#01984c] hover:opacity-70 transition-all duration-500 hover:shadow shadow-sm"
+              className="px-16 py-2 rounded mt-8 text-lg text-white bg-[#01984c] hover:opacity-70 transition-all duration-500 hover:shadow shadow-sm disabled:opacity-30 disabled:cursor-not-allowed"
+              disabled={
+                !!(
+                  errors.address ||
+                  errors.email ||
+                  errors.message ||
+                  errors.name ||
+                  errors.phoneNumber ||
+                  errors.recaptcha
+                )
+              }
             >
               送信
             </button>
