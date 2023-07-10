@@ -73,7 +73,7 @@ const Contact = () => {
     const myForm = e?.target
     const formData = new FormData(myForm)
 
-    fetch(({ tag: "/contact" } as Route).tag, {
+    fetch("/success", {
       method: "POST",
       headers: { "Content-Type": "application/x-www-form-urlencoded" },
       body: new URLSearchParams(formData as any).toString(),
