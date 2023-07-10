@@ -29,9 +29,22 @@ const schema = yup.object().shape({
       /^(0{1}\d{1,4}-{1}\d{1,4}-{1}\d{4})$/,
       "電話番号の形式が正しくありません"
     )
-    .optional(),
-  address: yup.string().optional(),
-  message: yup.string().optional(),
+    .optional()
+    .transform((value, originalValue) => {
+      return originalValue === undefined ? "" : value
+    }),
+  address: yup
+    .string()
+    .optional()
+    .transform((value, originalValue) => {
+      return originalValue === undefined ? "" : value
+    }),
+  message: yup
+    .string()
+    .optional()
+    .transform((value, originalValue) => {
+      return originalValue === undefined ? "" : value
+    }),
 })
 
 const Contact = () => {
