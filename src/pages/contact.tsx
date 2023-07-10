@@ -87,7 +87,6 @@ const Contact = () => {
     if (recaptchaValue === null) return
     fetch("/", {
       method: "POST",
-      headers: { "Content-Type": "application/x-www-form-urlencoded" },
       body: new URLSearchParams({
         "form-name": "contact",
         "g-recaptcha-response": recaptchaValue,
