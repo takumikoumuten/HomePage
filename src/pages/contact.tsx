@@ -52,6 +52,20 @@ const Contact = () => {
     progressive: true,
   })
   const onSubmit: Parameters<typeof handleSubmit>[0] = (data, e) => {
+    const formData = new URLSearchParams({
+      ...data,
+      phoneNumber: data.phoneNumber ?? "",
+      address: data.address ?? "",
+      message: data.message ?? "",
+    }).toString()
+
+    fetch("/", {
+      method: "POST",
+      headers: { "Content-Type": "application/x-www-form-urlencoded" },
+      body: formData,
+    })
+      .then(() => console.log("Form successfully submitted"))
+      .catch(error => alert(error))
     console.log(data)
   }
 
