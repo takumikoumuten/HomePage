@@ -85,6 +85,7 @@ const Contact = () => {
 
     if (recaptchaRef.current === null) return
     const recaptchaValue = recaptchaRef.current.getValue()
+    console.log(recaptchaValue)
     if (recaptchaValue === null) return
     fetch("/", {
       method: "POST",
