@@ -1,4 +1,4 @@
-import React, { ComponentProps, PropsWithChildren, useRef } from "react"
+import React, { PropsWithChildren, useRef } from "react"
 import { useForm, Controller } from "react-hook-form"
 import { yupResolver } from "@hookform/resolvers/yup"
 import * as yup from "yup"
@@ -14,6 +14,7 @@ import Seo from "../components/seo"
 import useScrollAnimation from "../useScrollAnimation"
 import useFirstSuccess from "../useFirstSuccess"
 import Recaptcha from "react-google-recaptcha"
+import { routeToLink } from "../routes"
 
 export const Head = () => <Seo pageName="CONTACT" />
 
@@ -56,7 +57,9 @@ const schema = yup.object().shape({
   recaptcha: yup.string().required(),
 })
 
-const Contact = () => {
+export const ContactLayout = ({
+  children,
+}: PropsWithChildren<{}>): React.ReactElement => {
   const contactHeroData = useStaticQuery(graphql`
     query {
       contactHero: file(relativePath: { eq: "contactHero.jpg" }) {
@@ -67,6 +70,29 @@ const Contact = () => {
     }
   `)
   const contactHero = getImage(contactHeroData.contactHero)
+  return (
+    <>
+      <Layout hero={<Hero image={contactHero} type="small" />}>
+        <div className="grid grid-rows-[min-content]">
+          <div className="grid max-w-screen-md justify-self-center w-full grid-rows-[auto,auto] h-min">
+            <Breadcrumb
+              className="mt-4"
+              path={[
+                { link: { tag: "/" }, title: `${consts.社名} HOME` },
+                { link: null, title: "CONTACT" },
+              ]}
+            />
+            <div className="text-3xl w-full text-center mt-12">CONTACT</div>
+          </div>
+          <div className="bg-neutral-100 mt-12 grid">{children}</div>
+        </div>
+        <Footer />
+      </Layout>
+    </>
+  )
+}
+
+const Contact = () => {
   const {
     register,
     handleSubmit,
@@ -110,156 +136,140 @@ const Contact = () => {
   const isFirstVisible = useFirstSuccess(isVisible)
 
   return (
-    <Layout hero={<Hero image={contactHero} type="small" />}>
-      <div className="grid grid-rows-[min-content]">
-        <div className="grid max-w-screen-md justify-self-center w-full grid-rows-[auto,auto] h-min">
-          <Breadcrumb
-            className="mt-4"
-            path={[
-              { link: { tag: "/" }, title: `${consts.社名} HOME` },
-              { link: null, title: "CONTACT" },
-            ]}
-          />
-          <div className="text-3xl w-full text-center mt-12">CONTACT</div>
+    <ContactLayout>
+      <form
+        data-netlify="true"
+        data-netlify-recaptcha="true"
+        action={routeToLink({ tag: "/contact-success" }).link}
+        name="contact"
+        onSubmit={handleSubmit(onSubmit)}
+        className={classNames([
+          "justify-self-center w-full max-w-screen-md mb-36",
+          { "animate-slow-slide-fade-in-left": isFirstVisible },
+        ])}
+        ref={ref}
+      >
+        <input type="hidden" name="form-name" value="contact" />
+
+        <div className="text-[#01984c] text-3xl mt-10">お問い合わせ</div>
+
+        <div className="text-lg text-[#01984c] mt-4">
+          ご相談、サービスについてのご質問やご要望がございましたら、
+          下記フォームよりお気軽にお問い合わせください。
         </div>
-        <div className="bg-neutral-100 mt-12 grid">
-          <form
-            data-netlify="true"
-            data-netlify-recaptcha="true"
-            name="contact"
-            onSubmit={handleSubmit(onSubmit)}
+
+        <div className="text-lg text-[#01984c] mt-2">
+          送付いただいた内容を確認の上、担当者からご連絡させていただきます。
+        </div>
+
+        <div className="grid grid-flow-row gap-2 mt-8">
+          <Label>お名前(必須):</Label>
+          <input
+            {...register("name")}
             className={classNames([
-              "justify-self-center w-full max-w-screen-md mb-36",
-              { "animate-slow-slide-fade-in-left": isFirstVisible },
+              "px-3 py-2 rounded-sm border border-[#01984c]",
+              { "border-red-400": errors.name },
             ])}
-            ref={ref}
-          >
-            <input type="hidden" name="form-name" value="contact" />
-
-            <div className="text-[#01984c] text-3xl mt-10">お問い合わせ</div>
-
-            <div className="text-lg text-[#01984c] mt-4">
-              ご相談、サービスについてのご質問やご要望がございましたら、
-              下記フォームよりお気軽にお問い合わせください。
-            </div>
-
-            <div className="text-lg text-[#01984c] mt-2">
-              送付いただいた内容を確認の上、担当者からご連絡させていただきます。
-            </div>
-
-            <div className="grid grid-flow-row gap-2 mt-8">
-              <Label>お名前(必須):</Label>
-              <input
-                {...register("name")}
-                className={classNames([
-                  "px-3 py-2 rounded-sm border border-[#01984c]",
-                  { "border-red-400": errors.name },
-                ])}
-              />
-              {errors.name && <Error>{errors.name.message}</Error>}
-            </div>
-
-            <div className="grid grid-flow-row gap-2 mt-4">
-              <Label>メールアドレス(必須):</Label>
-              <input
-                {...register("email")}
-                className={classNames([
-                  "px-3 py-2 rounded-sm border border-[#01984c]",
-                  { "border-red-400": errors.email },
-                ])}
-              />
-              {errors.email && <Error>{errors.email.message}</Error>}
-            </div>
-
-            <div className="grid grid-flow-row gap-2 mt-4">
-              <Label>電話番号:</Label>
-              <Controller
-                control={control}
-                name="phoneNumber"
-                render={({ field }) => (
-                  <input
-                    {...field}
-                    className={classNames([
-                      "px-3 py-2 rounded-sm border border-[#01984c]",
-                      { "border-red-400": errors.phoneNumber },
-                    ])}
-                  />
-                )}
-              />
-              {errors.phoneNumber && (
-                <Error>{errors.phoneNumber.message}</Error>
-              )}
-            </div>
-
-            <div className="grid grid-flow-row gap-2 mt-4">
-              <Label>住所:</Label>
-              <Controller
-                control={control}
-                name="address"
-                render={({ field }) => (
-                  <input
-                    {...field}
-                    className={classNames([
-                      "px-3 py-2 rounded-sm border border-[#01984c]",
-                    ])}
-                  />
-                )}
-              />
-            </div>
-
-            <div className="grid grid-flow-row gap-2 mt-4">
-              <Label>メッセージ:</Label>
-              <Controller
-                control={control}
-                name="message"
-                render={({ field }) => (
-                  <textarea
-                    {...field}
-                    className={classNames([
-                      "px-3 py-2 rounded-sm border border-[#01984c]",
-                    ])}
-                    rows={6}
-                  />
-                )}
-              />
-            </div>
-            <Controller
-              name="recaptcha"
-              control={control}
-              render={({ field }) => (
-                <Recaptcha
-                  sitekey={RECAPTCHA_KEY}
-                  onChange={value => {
-                    if (value === null) return
-                    field.onChange(value)
-                  }}
-                  className="mt-8"
-                />
-              )}
-            />
-            {errors.recaptcha && <Error>reCAPTCHAが必須です</Error>}
-
-            <button
-              type="submit"
-              className="px-16 py-2 rounded mt-8 text-lg text-white bg-[#01984c] hover:opacity-70 transition-all duration-500 hover:shadow shadow-sm disabled:opacity-30 disabled:cursor-not-allowed"
-              disabled={
-                !!(
-                  errors.address ||
-                  errors.email ||
-                  errors.message ||
-                  errors.name ||
-                  errors.phoneNumber ||
-                  errors.recaptcha
-                )
-              }
-            >
-              送信
-            </button>
-          </form>
+          />
+          {errors.name && <Error>{errors.name.message}</Error>}
         </div>
-      </div>
-      <Footer />
-    </Layout>
+
+        <div className="grid grid-flow-row gap-2 mt-4">
+          <Label>メールアドレス(必須):</Label>
+          <input
+            {...register("email")}
+            className={classNames([
+              "px-3 py-2 rounded-sm border border-[#01984c]",
+              { "border-red-400": errors.email },
+            ])}
+          />
+          {errors.email && <Error>{errors.email.message}</Error>}
+        </div>
+
+        <div className="grid grid-flow-row gap-2 mt-4">
+          <Label>電話番号:</Label>
+          <Controller
+            control={control}
+            name="phoneNumber"
+            render={({ field }) => (
+              <input
+                {...field}
+                className={classNames([
+                  "px-3 py-2 rounded-sm border border-[#01984c]",
+                  { "border-red-400": errors.phoneNumber },
+                ])}
+              />
+            )}
+          />
+          {errors.phoneNumber && <Error>{errors.phoneNumber.message}</Error>}
+        </div>
+
+        <div className="grid grid-flow-row gap-2 mt-4">
+          <Label>住所:</Label>
+          <Controller
+            control={control}
+            name="address"
+            render={({ field }) => (
+              <input
+                {...field}
+                className={classNames([
+                  "px-3 py-2 rounded-sm border border-[#01984c]",
+                ])}
+              />
+            )}
+          />
+        </div>
+
+        <div className="grid grid-flow-row gap-2 mt-4">
+          <Label>メッセージ:</Label>
+          <Controller
+            control={control}
+            name="message"
+            render={({ field }) => (
+              <textarea
+                {...field}
+                className={classNames([
+                  "px-3 py-2 rounded-sm border border-[#01984c]",
+                ])}
+                rows={6}
+              />
+            )}
+          />
+        </div>
+        <Controller
+          name="recaptcha"
+          control={control}
+          render={({ field }) => (
+            <Recaptcha
+              sitekey={RECAPTCHA_KEY}
+              onChange={value => {
+                if (value === null) return
+                field.onChange(value)
+              }}
+              className="mt-8"
+            />
+          )}
+        />
+        {errors.recaptcha && <Error>reCAPTCHAが必須です</Error>}
+
+        <button
+          type="submit"
+          className="px-16 py-2 rounded mt-8 text-lg text-white bg-[#01984c] hover:opacity-70 transition-all duration-500 hover:shadow shadow-sm disabled:opacity-30 disabled:cursor-not-allowed"
+          disabled={
+            !!(
+              errors.address ||
+              errors.email ||
+              errors.message ||
+              errors.name ||
+              errors.phoneNumber ||
+              errors.recaptcha
+            )
+          }
+        >
+          送信
+        </button>
+      </form>
+    </ContactLayout>
   )
 }
 

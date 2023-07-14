@@ -1,6 +1,12 @@
 export type Route =
   | {
-      tag: "/" | "/company" | "/contact" | "/sitemap" | "/privacy-policy"
+      tag:
+        | "/"
+        | "/company"
+        | "/contact"
+        | "/sitemap"
+        | "/privacy-policy"
+        | "/contact-success"
     }
   | {
       tag: "/news"
@@ -17,6 +23,7 @@ export const toRoute = (pathname: string): Route | null => {
     case "/company":
     case "/contact":
     case "/sitemap":
+    case "/contact-success":
     case "/privacy-policy":
       return { tag: pathname }
     default:
@@ -40,6 +47,7 @@ export const routeToLink = (
     case "/company":
     case "/contact":
     case "/sitemap":
+    case "/contact-success":
     case "/privacy-policy":
       return { link: route.tag, section: null }
     case "/news":
