@@ -74,7 +74,7 @@ export const ContactLayout = ({
     <>
       <Layout hero={<Hero image={contactHero} type="small" />}>
         <div className="grid grid-rows-[min-content]">
-          <div className="grid max-w-screen-md justify-self-center w-full grid-rows-[auto,auto] h-min">
+          <div className="grid max-w-screen-md justify-self-center w-full grid-rows-[auto,auto] h-min px-8">
             <Breadcrumb
               className="mt-4"
               path={[
@@ -84,7 +84,9 @@ export const ContactLayout = ({
             />
             <div className="text-3xl w-full text-center mt-12">CONTACT</div>
           </div>
-          <div className="bg-neutral-100 mt-12 grid">{children}</div>
+          <div className="bg-neutral-100 mt-12 grid">
+            <div className="grid px-8 max-w-screen-md justify-self-center">{children}</div>
+          </div>
         </div>
         <Footer />
       </Layout>
