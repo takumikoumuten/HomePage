@@ -110,9 +110,6 @@ const Contact = () => {
   const onSubmit: Parameters<typeof handleSubmit>[0] = (data, e) => {
     e?.preventDefault()
 
-    const myForm = e?.target
-    const formData = new FormData(myForm)
-
     if (recaptchaRef.current === null) return
     const recaptchaValue = recaptchaRef.current.getValue()
     console.log(recaptchaValue)
@@ -122,7 +119,7 @@ const Contact = () => {
       body: new URLSearchParams({
         "form-name": "contact",
         "g-recaptcha-response": recaptchaValue,
-        ...formData,
+        ...data,
       } as any).toString(),
     })
       .then(() => console.log("Form successfully submitted"))
