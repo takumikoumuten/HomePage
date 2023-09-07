@@ -114,7 +114,7 @@ const Contact = () => {
     const recaptchaValue = recaptchaRef.current.getValue()
     console.log(recaptchaValue)
     if (recaptchaValue === null) return
-    fetch("/contact", {
+    fetch("/", {
       method: "POST",
       body: new URLSearchParams({
         "form-name": "contact",
