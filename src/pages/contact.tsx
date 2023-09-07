@@ -85,7 +85,9 @@ export const ContactLayout = ({
             <div className="text-3xl w-full text-center mt-12">CONTACT</div>
           </div>
           <div className="bg-neutral-100 mt-12 grid">
-            <div className="grid px-8 max-w-screen-md justify-self-center">{children}</div>
+            <div className="grid px-8 max-w-screen-md justify-self-center">
+              {children}
+            </div>
           </div>
         </div>
         <Footer />
@@ -243,6 +245,7 @@ const Contact = () => {
           control={control}
           render={({ field }) => (
             <Recaptcha
+              ref={recaptchaRef}
               sitekey={RECAPTCHA_KEY}
               onChange={value => {
                 if (value === null) return
