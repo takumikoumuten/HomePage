@@ -43,11 +43,12 @@ const Footer = ({}: {}): React.ReactElement => {
             "grid md:grid-flow-col md:gap-4 sm:grid-flow-row sm:gap-2 pt-10 px-6 pb-6 md:place-content-center text-sm bg-[#4ad65d1a] sm:justify-items-center items-center",
           ])}
         >
-          {links.map(({ to, content }) => {
+          {links.map(({ to, content }, i) => {
             return (
               <LinkWrapper
                 link={to}
                 className="hover:opacity-60 transition-all border-b border-b-transparent hover:border-b-[#01984c] justify-items-center grid"
+                key={i}
               >
                 <div className="text-[#01984c] duration-500 leading-none mb-1">
                   {content}

@@ -123,7 +123,10 @@ const Contact = () => {
         ...data,
       } as any).toString(),
     })
-      .then(() => console.log("Form successfully submitted"))
+      .then(() => {
+        console.log("Form successfully submitted")
+        location.replace("/contact-success")
+      })
       .catch(error => alert(error))
   }
 

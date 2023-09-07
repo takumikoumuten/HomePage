@@ -113,10 +113,11 @@ const Header = ({ className }: { className: string }): React.ReactElement => {
               ])}
               style={{ gridColumn: "1/3", gridRow: "1" }}
             >
-              {links.map(props => (
+              {links.map((props, i) => (
                 <StackingNavigationLink
                   {...props}
                   selected={selectedLink === props.link}
+                  key={i}
                 />
               ))}
             </div>
@@ -142,8 +143,12 @@ const Header = ({ className }: { className: string }): React.ReactElement => {
           ])}
         >
           <Logo type="small" />
-          {links.map(props => (
-            <NavigationLink {...props} selected={selectedLink === props.link} />
+          {links.map((props, i) => (
+            <NavigationLink
+              {...props}
+              selected={selectedLink === props.link}
+              key={i}
+            />
           ))}
         </ul>
       </div>

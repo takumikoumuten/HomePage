@@ -6,10 +6,10 @@ const ContactSuccess = (): React.ReactElement => {
   return (
     <>
       <ContactLayout>
-        <div className="">
-          <div className="">成功しました。</div>
+        <div className="grid place-items-center">
+          <div className="p-8 mx-auto">成功しました。</div>
           <LinkButton
-            className=""
+            className="mx-auto px-8"
             title="ホーム画面へ"
             to={{ tag: "/" }}
             type="normal"
